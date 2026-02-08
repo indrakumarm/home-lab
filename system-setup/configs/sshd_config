@@ -1,0 +1,43 @@
+# Custom SSH Server Configuration
+# Place this file at: configs/sshd_config
+# It will be automatically applied when running the ssh module
+
+# Security Settings
+Port 22                          # Change to non-standard port (e.g., 2222) for extra security
+PermitRootLogin no              # Disable root login
+PasswordAuthentication yes      # Set to 'no' after setting up SSH keys
+PubkeyAuthentication yes        # Enable SSH key authentication
+PermitEmptyPasswords no         # Don't allow empty passwords
+ChallengeResponseAuthentication no
+
+# Performance & Limits
+MaxAuthTries 3                  # Limit authentication attempts
+MaxSessions 10                  # Maximum concurrent sessions
+LoginGraceTime 60               # Time allowed for authentication
+
+# Protocol & Encryption
+Protocol 2                      # Use SSH protocol 2 only
+HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_ecdsa_key
+HostKey /etc/ssh/ssh_host_ed25519_key
+
+# Logging
+SyslogFacility AUTH
+LogLevel INFO
+
+# Authentication
+UsePAM yes                      # Use Pluggable Authentication Modules
+
+# Forwarding & Tunneling
+X11Forwarding yes               # Allow GUI forwarding (disable if not needed)
+PrintMotd no                    # Don't print message of the day
+AcceptEnv LANG LC_*             # Accept locale environment variables
+
+# Subsystems
+Subsystem sftp /usr/lib/openssh/sftp-server
+
+# Optional: Restrict to specific users (uncomment and modify)
+# AllowUsers username1 username2
+
+# Optional: Restrict to specific groups
+# AllowGroups sshusers
